@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /panier
+
+Sitemap: https://monsite.fr/sitemap.xml
