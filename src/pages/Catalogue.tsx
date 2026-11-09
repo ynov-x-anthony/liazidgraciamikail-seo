@@ -1,26 +1,29 @@
-import { useSearchParams } from 'react-router-dom'
+import useDocumentMeta from '../useDocumentMeta'
 import { products } from '../data'
 
-// Mission : /produits?tri=prix et /produits?tri=prix-asc affichent EXACTEMENT
-// la même liste (duplicate content, 2 URLs pour le même contenu). Pose une
-// balise canonique qui pointe toujours vers la version "prix".
-
 export default function Catalogue() {
-  const [params] = useSearchParams()
-  const tri = params.get('tri')
-
-  const sorted = tri === 'prix' || tri === 'prix-asc'
-    ? [...products].sort((a, b) => a.price - b.price)
-    : products
+  useDocumentMeta({
+    title: 'Catalogue Vélos Électriques & Accessoires | MonSiteVélo',
+    description: 'Explorez notre gamme complète de vélos électriques pliables, citadins et accessoires. Livraison gratuite et garantie 2 ans.'
+  })
 
   return (
-    <div className="page">
-      <h1>Nos produits</h1>
-      <ul>
-        {sorted.map((p) => (
-          <li key={p.id}>{p.name} - {p.price} €</li>
+    <main className="page">
+      <h1>Notre Catalogue de Vélos Électriques</h1>
+      <p>Découvrez notre sélection de modèles adaptés à tous vos besoins urbains.</p>
+
+      <section className="product-list">
+        {products.map((product) => (
+          <article key={product.id} className="product-card">
+            <h2>{product.name}</h2>
+            <p>{product.shortDescription}</p>
+            {/* Ancre de lien descriptive */}
+            <a href={`/produits/${product.slug}`}>
+              Découvrir la fiche du {product.name}
+            </a>
+          </article>
         ))}
-      </ul>
-    </div>
+      </section>
+    </main>
   )
 }
